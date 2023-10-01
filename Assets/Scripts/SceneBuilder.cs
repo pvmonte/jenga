@@ -11,6 +11,9 @@ public class SceneBuilder : MonoBehaviour
     private Vector3 lastStackPosition = new ();
 
     [SerializeField]private StacksRequester requester;
+    
+    public event Action<JengaStack> OnBuildStack; 
+    public event Action OnBuildLastStack; 
 
     private void Start()
     {
@@ -27,7 +30,10 @@ public class SceneBuilder : MonoBehaviour
         foreach (var stack in stacks)
         {
             stack.Value.BuildStack();
+            OnBuildStack?.Invoke(stack.Value);
         }
+        
+        OnBuildLastStack?.Invoke();
     }
 
     public void AddBlockToCorrespondentStack(string grade, StackData data)

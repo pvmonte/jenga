@@ -8,14 +8,16 @@ using UnityEngine.Serialization;
 
 public class JengaStack : MonoBehaviour
 {
+    [SerializeField] private CinemachineVirtualCamera camera;
     [SerializeField] private TextMeshPro label;
-    private List<StackData> datas = new ();
+    [SerializeField] private JengaBlock blockPrefab;
+    [SerializeField] private List<JengaBlock> blocks = new List<JengaBlock>();
+    private List<StackData> datas = new();
     private int currentData;
     private Transform stackTransform;
-    [SerializeField]private JengaBlock blockPrefab;
 
     private Vector3 nextPiecePosition = new Vector3(-1, 0.5f, 0);
-    
+
     [SerializeField] private Material[] piecesMaterials;
 
     public void Setup(string grade)
@@ -33,7 +35,7 @@ public class JengaStack : MonoBehaviour
     public void BuildStack()
     {
         datas.Sort();
-        
+
         int rowsCount = datas.Count / 3;
         int blocksLeft = datas.Count % 3;
 
@@ -53,7 +55,7 @@ public class JengaStack : MonoBehaviour
         {
             if (rowsCount % 2 == 0)
             {
-                BuildEvenRow(false, blocksLeft);
+                BuildEvenRow(rowsCount == 0, blocksLeft);
             }
             else
             {
@@ -67,9 +69,9 @@ public class JengaStack : MonoBehaviour
         int currentBlock = 0;
         var pieceRotation = Quaternion.Euler(0, 0, 0);
         nextPiecePosition.x = -1;
-        
-        if(!isFirstRow) nextPiecePosition.y += 1;
-        
+
+        if (!isFirstRow) nextPiecePosition.y += 1;
+
         nextPiecePosition.z = 0;
 
         for (int i = 0; i < numberOfBlocks; i++)
@@ -79,7 +81,6 @@ public class JengaStack : MonoBehaviour
         }
     }
 
-    
 
     private void BuildOddRow(int numberOfBlocks = 3)
     {
@@ -95,13 +96,37 @@ public class JengaStack : MonoBehaviour
             nextPiecePosition.z += 1;
         }
     }
-    
+
     private void SpawnPiece(Quaternion pieceRotation)
     {
         var block = Instantiate(blockPrefab, nextPiecePosition, pieceRotation, stackTransform);
         block.transform.SetLocalPositionAndRotation(nextPiecePosition, pieceRotation);
         block.Setup(datas[currentData]);
         block.SetMaterial(piecesMaterials);
+        blocks.Add(block);
         currentData++;
+    }
+
+    public void TestTheStack()
+    {
+        for (int i = 0; i < blocks.Count; i++)
+        {
+            Mastery mastery = blocks[i].StartStackTestAndReturnMastery();
+            if (mastery == Mastery.Glass)
+            {
+                Destroy(blocks[i].gameObject);
+                blocks.RemoveAt(i);
+            }
+        }
+    }
+
+    public void Focus()
+    {
+        camera.gameObject.SetActive(true);
+    }
+
+    public void Unfocus()
+    {
+        camera.gameObject.SetActive(false);
     }
 }
