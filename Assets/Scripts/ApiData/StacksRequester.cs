@@ -3,16 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using Unity.Plastic.Newtonsoft.Json;
 
 public class StacksRequester : MonoBehaviour
 {
     private void Start()
     {
         StartCoroutine(RequestStacks());
-
-
-
-
     }
 
     private IEnumerator RequestStacks()
@@ -33,16 +30,14 @@ public class StacksRequester : MonoBehaviour
                     Debug.LogError("HTTP Error: " + webRequest.error);
                     break;
                 case UnityWebRequest.Result.Success:
-                    //Debug.Log("\nReceived: " + webRequest.downloadHandler.text);
-                    
                     var json = webRequest.downloadHandler.text;
-                    print(json);
-                    var response = JsonUtility.FromJson<StackResponse>(json);
-                    Debug.Log(response.data[0].id);
+                    var response = JsonConvert.DeserializeObject<StackData[]>(json);
+                    
+                    
                     break;
             }
-            
-            
         }
     }
+    
+    
 }

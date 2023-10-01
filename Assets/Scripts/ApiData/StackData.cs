@@ -6,19 +6,19 @@ using UnityEngine;
 [Serializable]
 public class StackData
 {
-    public int id { get; set; }
-    public string subject { get; set; }
-    public string grade { get; set; }
-    public int mastery { get; set; }
-    public string domainid { get; set; }
-    public string domain { get; set; }
-    public string cluster { get; set; }
-    public string standardid { get; set; }
-    public string standarddescription { get; set; }
+    public int id;
+    public string subject;
+    public string grade;
+    public int mastery;
+    public string domainid;
+    public string domain;
+    public string cluster;
+    public string standardid;
+    public string standarddescription;
 }
 
 [Serializable]
 public class StackResponse
 {
-    public List<StackData> data { get; set; }
+    public StackData[] data;
 }
