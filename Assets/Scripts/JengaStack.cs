@@ -8,31 +8,34 @@ using UnityEngine.Serialization;
 
 public class JengaStack : MonoBehaviour
 {
-    public JengaBlock blockPrefab;
-
-    [FormerlySerializedAs("startPosition")]
-    public Vector3 stackPosition;
-
-    public float blockSpacing;
-
-    private int blockCount;
+    [SerializeField] private TextMeshPro label;
+    private List<StackData> datas = new ();
+    private int currentData;
+    private Transform stackTransform;
+    [SerializeField]private JengaBlock blockPrefab;
 
     private Vector3 nextPiecePosition = new Vector3(-1, 0.5f, 0);
-    private int currentRow = 0;
-    private Vector3[] evenRowBlockPositions;
-    private Vector3[] oddRowBlockPositions;
+    
+    [SerializeField] private Material[] piecesMaterials;
 
-    private void Start()
+    public void Setup(string grade)
     {
-        blockCount = 10; // Set the desired number of blocks in the stack
-
-        BuildStack();
+        name = "Stack " + grade;
+        label.text = grade;
+        stackTransform = transform;
     }
 
-    private void BuildStack()
+    public void AddBlock(StackData data)
     {
-        int rowsCount = blockCount / 3;
-        int blocksLeft = blockCount % 3;
+        datas.Add(data);
+    }
+
+    public void BuildStack()
+    {
+        datas.Sort();
+        
+        int rowsCount = datas.Count / 3;
+        int blocksLeft = datas.Count % 3;
 
         for (int i = 0; i < rowsCount; i++)
         {
@@ -71,12 +74,12 @@ public class JengaStack : MonoBehaviour
 
         for (int i = 0; i < numberOfBlocks; i++)
         {
-            var block = Instantiate(blockPrefab, nextPiecePosition, pieceRotation, transform);
+            SpawnPiece(pieceRotation);
             nextPiecePosition.x += 1;
         }
-
-        
     }
+
+    
 
     private void BuildOddRow(int numberOfBlocks = 3)
     {
@@ -88,16 +91,17 @@ public class JengaStack : MonoBehaviour
 
         for (int i = 0; i < numberOfBlocks; i++)
         {
-            var block = Instantiate(blockPrefab, nextPiecePosition, pieceRotation, transform);
-
+            SpawnPiece(pieceRotation);
             nextPiecePosition.z += 1;
         }
-
-        
     }
-
-    private void PlaceLeftingBlocks()
+    
+    private void SpawnPiece(Quaternion pieceRotation)
     {
-        
+        var block = Instantiate(blockPrefab, nextPiecePosition, pieceRotation, stackTransform);
+        block.transform.SetLocalPositionAndRotation(nextPiecePosition, pieceRotation);
+        block.Setup(datas[currentData]);
+        block.SetMaterial(piecesMaterials);
+        currentData++;
     }
 }

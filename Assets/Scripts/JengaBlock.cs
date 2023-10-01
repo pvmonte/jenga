@@ -1,17 +1,26 @@
 ﻿using UnityEngine;
 
+public enum Mastery
+{
+    Glass = 0,
+    Wood = 1,
+    Stone = 2
+}
+
 public class JengaBlock : MonoBehaviour
 {
-    public int Height { get; set; }
-    public int Width { get; set; }
-    public int Length { get; set; }
+    private Mastery mastery;
+    [SerializeField] private Renderer meshRenderer;
 
-    // Customize the block's appearance and behavior here
-    // ...
-
-    private void Start()
+    public void Setup(StackData data)
     {
-        // Set the block's initial position, rotation, etc.
-        // ...
+        mastery = (Mastery)data.mastery;
+
+        
+    }
+
+    public void SetMaterial(Material[] piecesMaterials)
+    {
+        meshRenderer.material = piecesMaterials[(int)mastery];
     }
 }

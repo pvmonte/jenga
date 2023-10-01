@@ -7,6 +7,8 @@ using Unity.Plastic.Newtonsoft.Json;
 
 public class StacksRequester : MonoBehaviour
 {
+    public event Action<StackData[]> OnStacksReceived;
+    
     private void Start()
     {
         StartCoroutine(RequestStacks());
@@ -32,8 +34,7 @@ public class StacksRequester : MonoBehaviour
                 case UnityWebRequest.Result.Success:
                     var json = webRequest.downloadHandler.text;
                     var response = JsonConvert.DeserializeObject<StackData[]>(json);
-                    
-                    
+                    OnStacksReceived?.Invoke(response);
                     break;
             }
         }

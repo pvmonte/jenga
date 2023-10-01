@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public class StackData
+public class StackData : IComparable
 {
     public int id;
     public string subject;
@@ -15,6 +15,11 @@ public class StackData
     public string cluster;
     public string standardid;
     public string standarddescription;
+    
+    public int CompareTo(object obj)
+    {
+        throw new NotImplementedException();
+    }
 }
 
 [Serializable]
