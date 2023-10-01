@@ -129,4 +129,9 @@ public class JengaStack : MonoBehaviour
     {
         camera.gameObject.SetActive(false);
     }
+
+    public void RotateCamera(float horizontalMovement)
+    {
+        camera.transform.RotateAround(transform.position, Vector3.up,  horizontalMovement);
+    }
 }

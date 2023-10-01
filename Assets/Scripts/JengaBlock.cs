@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using TMPro;
+using UnityEngine;
 
 public enum Mastery
 {
@@ -12,6 +14,7 @@ public class JengaBlock : MonoBehaviour
     private Mastery mastery;
     [SerializeField] private Renderer meshRenderer;
     [SerializeField] private Rigidbody rb;
+    [SerializeField] private TextMeshPro[] masteryTexts;
 
     public void Setup(StackData data)
     {
@@ -27,5 +30,13 @@ public class JengaBlock : MonoBehaviour
     {
         rb.isKinematic = false;
         return mastery;
+    }
+
+    private void OnMouseUpAsButton()
+    {
+        if (Input.GetMouseButtonUp(1))
+        {
+            Debug.Log("Right-clicked! " + mastery);
+        }
     }
 }

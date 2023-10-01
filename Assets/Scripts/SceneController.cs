@@ -29,9 +29,10 @@ public class SceneController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.Space))
+        if (Input.GetMouseButton(0))
         {
-            stacks[selectedStack].TestTheStack();
+            float horizontalMovement = Input.GetAxis("Mouse X");
+            stacks[selectedStack].RotateCamera(horizontalMovement);
         }
 
         if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
@@ -44,6 +45,11 @@ public class SceneController : MonoBehaviour
         {
             selectedStack = (selectedStack - 1 + stacks.Count) % stacks.Count;
             FocusSelectedStack();
+        }
+        
+        if (Input.GetKey(KeyCode.Space))
+        {
+            stacks[selectedStack].TestTheStack();
         }
     }
 

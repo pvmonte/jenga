@@ -42,7 +42,7 @@ public class SceneBuilder : MonoBehaviour
         {
             JengaStack stack = Instantiate(stackPrefab, lastStackPosition, Quaternion.identity);
             stack.Setup(grade);
-            lastStackPosition.x += 6;
+            lastStackPosition.x += 12;
             stacks.Add(grade, stack);
         }
 
