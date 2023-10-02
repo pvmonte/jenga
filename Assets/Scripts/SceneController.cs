@@ -7,6 +7,8 @@ public class SceneController : MonoBehaviour
     [SerializeField] private SceneBuilder sceneBuilder;
     [SerializeField] private List<JengaStack> stacks;
     [SerializeField] private int selectedStack;
+
+    [SerializeField] private InfoPanel infoPanel;
     
     // Start is called before the first frame update
     void Start()
@@ -33,6 +35,23 @@ public class SceneController : MonoBehaviour
         {
             float horizontalMovement = Input.GetAxis("Mouse X");
             stacks[selectedStack].RotateCamera(horizontalMovement);
+        }
+
+        if (Input.GetMouseButtonDown(1))
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+
+            if (Physics.Raycast(ray, out hit))
+            {
+                if (hit.collider != null)
+                {
+                    var block = hit.collider.GetComponent<JengaBlock>();
+                    var details = block.GetDetails();
+                    infoPanel.SetValues(details);
+                    infoPanel.gameObject.SetActive(true);
+                }
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))

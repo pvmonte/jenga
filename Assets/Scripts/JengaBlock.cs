@@ -16,9 +16,12 @@ public class JengaBlock : MonoBehaviour
     [SerializeField] private Rigidbody rb;
     [SerializeField] private TextMeshPro[] masteryTexts;
 
+    private StackData data;
+
     public void Setup(StackData data)
     {
         mastery = (Mastery)data.mastery;
+        this.data = data;
     }
 
     public void SetMaterial(Material[] piecesMaterials)
@@ -32,11 +35,8 @@ public class JengaBlock : MonoBehaviour
         return mastery;
     }
 
-    private void OnMouseUpAsButton()
+    public StackData GetDetails()
     {
-        if (Input.GetMouseButtonUp(1))
-        {
-            Debug.Log("Right-clicked! " + mastery);
-        }
+        return data;
     }
 }
