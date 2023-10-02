@@ -41,26 +41,24 @@ public class JengaStack : MonoBehaviour
 
         for (int i = 0; i < rowsCount; i++)
         {
-            if (i % 2 == 0)
-            {
-                BuildEvenRow(i == 0);
-            }
-            else
-            {
-                BuildOddRow();
-            }
+            BuildRows(i, 3);
         }
 
         if (blocksLeft > 0)
         {
-            if (rowsCount % 2 == 0)
-            {
-                BuildEvenRow(rowsCount == 0, blocksLeft);
-            }
-            else
-            {
-                BuildOddRow(blocksLeft);
-            }
+            BuildRows(rowsCount, blocksLeft);
+        }
+    }
+
+    void BuildRows(int index, int numberOfBlocks)
+    {
+        if (index % 2 == 0)
+        {
+            BuildEvenRow(index== 0, numberOfBlocks);
+        }
+        else
+        {
+            BuildOddRow(numberOfBlocks);
         }
     }
 

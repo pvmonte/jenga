@@ -7,7 +7,7 @@ using Unity.Plastic.Newtonsoft.Json;
 
 public class StacksRequester : MonoBehaviour
 {
-    public event Action<StackData[]> OnStacksReceived;
+    public event Action<StackData[]> OnDataReceived;
     
     private void Start()
     {
@@ -16,8 +16,6 @@ public class StacksRequester : MonoBehaviour
 
     private IEnumerator RequestStacks()
     {
-        
-        
         using (UnityWebRequest webRequest = UnityWebRequest.Get("https://ga1vqcu3o1.execute-api.us-east-1.amazonaws.com/Assessment/stack"))
         {
             yield return webRequest.SendWebRequest();
@@ -34,7 +32,7 @@ public class StacksRequester : MonoBehaviour
                 case UnityWebRequest.Result.Success:
                     var json = webRequest.downloadHandler.text;
                     var response = JsonConvert.DeserializeObject<StackData[]>(json);
-                    OnStacksReceived?.Invoke(response);
+                    OnDataReceived?.Invoke(response);
                     break;
             }
         }

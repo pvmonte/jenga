@@ -39,9 +39,3 @@ public class StackData : IComparable
         }
     }
 }
-
-[Serializable]
-public class StackResponse
-{
-    public StackData[] data;
-}

@@ -17,10 +17,10 @@ public class SceneBuilder : MonoBehaviour
 
     private void Start()
     {
-        requester.OnStacksReceived += Requester_OnStacksReceived;
+        requester.OnDataReceived += RequesterOnDataReceived;
     }
 
-    private void Requester_OnStacksReceived(StackData[] obj)
+    private void RequesterOnDataReceived(StackData[] obj)
     {
         for (int i = 0; i < obj.Length; i++)
         {
